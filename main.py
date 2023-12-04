@@ -18,7 +18,7 @@ def button(title: str, special=False):
     return sg.Button(button_text=(title), size=(4, 2), button_color="#fc6f38", font=("Calibri 15"))
 
 layout = [
-    [sg.Text(visor, key="v", size=(400, 2), font=("Calibri 18"), background_color="White", text_color="Black") ],
+    [sg.Text(visor, key="v", size=(100, 2), font=("Calibri 18"), background_color="White", text_color="Black") ],
     [],
     [button("C", True), button("AC", True), button("("), button(")"), button("√", True)],
     [button("7"), button("8"), button("9"), button("/"), button("x²", True)],
