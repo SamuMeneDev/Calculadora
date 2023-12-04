@@ -30,7 +30,7 @@ layout = [
 ]
 
 sg.theme('reddit')
-window = sg.Window(title='Calculator', layout=layout, size=(350, 475), background_color="Black")
+window = sg.Window(title='Calculator', layout=layout, size=(350, 500), background_color="Black")
 
 while True:
     event, values = window.read()
