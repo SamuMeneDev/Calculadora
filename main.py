@@ -2,36 +2,93 @@ import PySimpleGUI as sg
 from math import sqrt
 
 visor = ""
+btn_num = []
+btn_sinais=  []
 
-def button(title, x, y):
-    return sg.Button(button_text=(title), size=(x, y), button_color="#fc6f38", font=("Calibri 15"))
+
+# BUTTON CREATOR
+def button(title: str, special=False):
+    if title.isnumeric():
+        btn_num.append(title)
+    elif special == True:
+        pass
+    else:
+        btn_sinais.append(title)
+
+    return sg.Button(button_text=(title), size=(4, 2), button_color="#fc6f38", font=("Calibri 15"))
 
 layout = [
-    [sg.Input(default_text=visor, key="v", size=(400, 2), font=("Calibri 18"), background_color="White", text_color="Black") ],
+    [sg.Text(visor, key="v", size=(400, 2), font=("Calibri 18"), background_color="White", text_color="Black") ],
     [],
-    [button("C", 3, 2), button("AC", 3, 2), button("(", 3, 2), button(")", 3, 2), button("√", 3, 2)],
-    [button("7", 3, 2), button("8", 3, 2), button("9", 3, 2), button("/", 3, 2), button("x²", 3, 2)],
-    [button("4", 3, 2), button("5", 3, 2), button("6", 3, 2), button("*", 3, 2), button("^", 3, 2)],
-    [button("1", 3, 2), button("2", 3, 2), button("3", 3, 2), button("-", 3, 2), button("=", 3, 2,)],
-    [button("0", 3, 2), button(".", 3, 2), button("π", 3, 2), button("+", 3, 2)],
-    [sg.Text("", key="alert", background_color="Black", text_color="Red", font=("Calibri 12"))]
+    [button("C", True), button("AC", True), button("("), button(")"), button("√", True)],
+    [button("7"), button("8"), button("9"), button("/"), button("x²", True)],
+    [button("4"), button("5"), button("6"), button("*"), button("^", True)],
+    [button("1"), button("2"), button("3"), button("-"), button("=", True)],
+    [button("0"), button("."), button("π", True), button("+")],
+    [sg.Text("", key="alert", background_color="Black", text_color="Red", font=("Calibri 12"), size=(15, 3))]
 
 ]
 
 sg.theme('reddit')
-window = sg.Window("Calculadora", layout, size=(415, 450), background_color="#000000")
+window = sg.Window(title='Calculator', layout=layout, size=(350, 475), background_color="Black")
 
 while True:
     event, values = window.read()
+    # WIN CLOSE
     if event == sg.WIN_CLOSED:
         break
+    # NUMS BUTTONS
+    for btn in btn_num:
+        if event == btn:
+            visor = visor + btn
+            window["v"].update(visor)
+    
+    # ARITHMETIC OPERATORS
+    for btn in btn_sinais:
+        if event == btn:
+            visor = visor + btn
+            window["v"].update(visor)
+    
+    # SOME FUCTIONS
     if event == "C":
         visor = visor[:-1]
         window["v"].update(visor)
+    
     if event == "AC":
         visor = ""
         window["v"].update(visor)
-    if event == "(":
+    
+    if event == "√":
+        coman = "sqrt("
+        visor = visor + coman
+        window["v"].update(visor)
+    
+    if event == "x²":
+        visor = visor + "**2"
+        window["v"].update(visor)
+    
+    if event == "^":
+        visor = visor + "**"
+        window["v"].update(visor)
+    
+    if event == "π":
+        visor = visor + "3.14"
+        window["v"].update(visor)
+    
+    if event == "=":
+        try:
+            r = eval(visor)
+            visor = str(r)
+            window["v"].update(visor)
+        except SyntaxError:
+            window["alert"].update("Operação Inválida")
+        else:
+            window["alert"].update("")
+    
+window.close()
+
+
+'''if event == "(":
         visor = visor + "("
         window["v"].update(visor)
     if event == ")":
@@ -82,26 +139,4 @@ while True:
         window["v"].update(visor)
     if event == "-":
         visor = visor + "-"
-        window["v"].update(visor)
-    if event == "=":
-        try:
-            r = eval(visor)
-            visor = str(r)
-            window["v"].update(visor)
-        except SyntaxError:
-            window["alert"].update("Operação Inválida")
-        else:
-            window["alert"].update("")
-    if event == "0":
-        visor = visor + "0"
-        window["v"].update(visor)
-    if event == ".":
-        visor = visor + "."
-        window["v"].update(visor)
-    if event == "π":
-        visor = visor + "3.14"
-        window["v"].update(visor)
-    if event == "+":
-        visor = visor + "+"
-        window["v"].update(visor)
-window.close()
+        window["v"].update(visor)'''
