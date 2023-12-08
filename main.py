@@ -82,6 +82,8 @@ while True:
             window["v"].update(visor)
         except SyntaxError:
             window["alert"].update("Operação Inválida")
+        except ZeroDivisionError:
+            window["alert"].update("Operação Inválida")
         else:
             window["alert"].update("")
     
